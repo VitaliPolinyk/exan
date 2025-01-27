@@ -43,14 +43,21 @@ export class BoardPageComponent implements OnInit {
   readonly panelOpenStateCompleted: WritableSignal<boolean> = signal(false);
   readonly storageService: StorageService = inject(StorageService);
   searchValue: string = '';
+  filteredValue: string = '';
 
   defaultValues: Record<ListTypeEnum, string[]> = {
-    [ListTypeEnum.todo]: [ 'Get to work', 'Pick up groceries' ],
+    [ListTypeEnum.todo]: [ 'Get to work', 'Pick up groceries', 'Wake up' ],
     [ListTypeEnum.doLater]: [ 'Go home', 'Fall asleep' ],
     [ListTypeEnum.completed]: [ 'Get up', 'Brush teeth' ]
   };
 
   listItems: WritableSignal<Record<ListTypeEnum, string[]>> = signal({
+    [ListTypeEnum.todo]: [],
+    [ListTypeEnum.doLater]: [],
+    [ListTypeEnum.completed]: []
+  });
+
+  filterItems: WritableSignal<Record<ListTypeEnum, string[]>> = signal({
     [ListTypeEnum.todo]: [],
     [ListTypeEnum.doLater]: [],
     [ListTypeEnum.completed]: []
@@ -77,7 +84,16 @@ export class BoardPageComponent implements OnInit {
     const items = this.listItems();
     items[ListTypeEnum.todo].push(this.searchValue);
     this.listItems.set({...items});
+    this.filterIt();
     this.storageService.saveItems(items);
+  }
+
+  filterIt(): void {
+    this.filterItems.set({
+      [ListTypeEnum.todo]: this.listItems()[ListTypeEnum.todo].filter(x => x.toLowerCase().includes(this.filteredValue.toLowerCase())),
+      [ListTypeEnum.doLater]: this.listItems()[ListTypeEnum.doLater].filter(x => x.toLowerCase().includes(this.filteredValue.toLowerCase())),
+      [ListTypeEnum.completed]: this.listItems()[ListTypeEnum.completed].filter(x => x.toLowerCase().includes(this.filteredValue.toLowerCase()))
+    });
   }
 
   actionClick(value: { value: string, nextType: ListTypeEnum, currentType: ListTypeEnum }): void {
@@ -94,15 +110,18 @@ export class BoardPageComponent implements OnInit {
     this.listItems.set({...items});
 
     this.storageService.saveItems(items);
+    this.filterIt();
   }
 
   ngOnInit(): void {
     const items: Record<ListTypeEnum, string[]> | null = this.storageService.getItems();
-    this.listItems.set(items ?? this.defaultValues);
+    this.listItems.set(!!items ? items : this.defaultValues);
+    this.filterIt();
   }
 
   reset(): void {
     this.listItems.set({...this.defaultValues});
+    this.filterIt();
     this.storageService.saveItems(this.listItems());
   }
 

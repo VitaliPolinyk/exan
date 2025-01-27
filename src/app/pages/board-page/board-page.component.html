@@ -12,7 +12,12 @@
   </div>
 
   <div class="board-page__progress">
-    <app-progress [options]="listItems()"/>
+    <app-progress [options]="filterItems()"/>
+  </div>
+
+  <div class="board-page__filter">
+    <label>Filter by name:</label>
+    <input (keyup)="filterIt()" [(ngModel)]="filteredValue" />
   </div>
 
   <app-exan-input [(ngModel)]="searchValue" (buttonClick)="addItem()"/>
@@ -20,10 +25,10 @@
   <div class="container" cdkDropListGroup>
     <div
       cdkDropList
-      [cdkDropListData]="listItems()[ListTypeEnum.todo]"
+      [cdkDropListData]="filterItems()[ListTypeEnum.todo]"
       class="list"
       (cdkDropListDropped)="drop($event)">
-      @for (item of listItems()[ListTypeEnum.todo]; track item) {
+      @for (item of filterItems()[ListTypeEnum.todo]; track item) {
         <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.todo" [title]="item" class="box"
                        cdkDrag/>
       }
@@ -40,10 +45,10 @@
         </mat-expansion-panel-header>
         <div
           cdkDropList
-          [cdkDropListData]="listItems()[ListTypeEnum.doLater]"
+          [cdkDropListData]="filterItems()[ListTypeEnum.doLater]"
           class="list"
           (cdkDropListDropped)="drop($event)">
-          @for (item of listItems()[ListTypeEnum.doLater]; track item) {
+          @for (item of filterItems()[ListTypeEnum.doLater]; track item) {
             <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.doLater" [title]="item"
                            class="box" cdkDrag/>
           }
@@ -60,10 +65,10 @@
         </mat-expansion-panel-header>
         <div
           cdkDropList
-          [cdkDropListData]="listItems()[ListTypeEnum.completed]"
+          [cdkDropListData]="filterItems()[ListTypeEnum.completed]"
           class="list"
           (cdkDropListDropped)="drop($event)">
-          @for (item of listItems()[ListTypeEnum.completed]; track item) {
+          @for (item of filterItems()[ListTypeEnum.completed]; track item) {
             <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.completed" [title]="item"
                            class="box" cdkDrag/>
           }
