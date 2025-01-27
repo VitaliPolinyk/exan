@@ -1,0 +1,30 @@
+.exam-input {
+  background-color: rgb(45 45 50);
+  display: flex;
+  align-items: center;
+  padding: 12px;
+
+  input {
+    background-color: rgb(45 45 50);
+    color: white;
+    padding: 8px;
+    flex: 1;
+    font-size: 16px;
+    border: none;
+
+    &:focus{
+      outline: none;
+    }
+  }
+
+  &__plus {
+    margin-left: 16px;
+  }
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+  }
+}

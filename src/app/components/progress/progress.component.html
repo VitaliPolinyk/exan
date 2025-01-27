@@ -1,0 +1,5 @@
+<div class="progress-bar-container">
+  <div class="progress-section red" [ngStyle]="{ width: state()[ListTypeEnum.todo] + '%' }"></div>
+  <div class="progress-section orange" [ngStyle]="{ width: state()[ListTypeEnum.doLater] + '%' }"></div>
+  <div class="progress-section blue" [ngStyle]="{ width: state()[ListTypeEnum.completed] + '%' }"></div>
+</div>

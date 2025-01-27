@@ -1,0 +1,6 @@
+<div class="exam-input">
+  <input placeholder="Add new item" [disabled]="disabled()"  [(ngModel)]="value" name="fieldName" ngDefaultControl />
+  <span class="exam-input__plus">
+    <mat-icon (click)="value.length ? buttonClick.emit(): null; value = ''" [ngStyle]="{'color':'rgb(250 250 250)'}" aria-hidden="false" aria-label="Example home icon" fontIcon="add"></mat-icon>
+  </span>
+</div>

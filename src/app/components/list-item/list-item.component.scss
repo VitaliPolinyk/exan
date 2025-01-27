@@ -1,0 +1,25 @@
+.list-item {
+  font-size: 16px;
+  padding: 12px;
+  background-color: rgb(75 75 90);
+  color: rgb(193 193 198);
+  box-sizing: border-box;
+  cursor: move;
+  margin-bottom: 8px;
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__actions {
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+  }
+}

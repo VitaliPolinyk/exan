@@ -1,0 +1,79 @@
+<div class="board-page">
+  <div class="header">
+    <div class="header__dates">
+      <span class="day"><strong>{{ date | date: 'dd' }}</strong></span>
+      <span class="months">
+          <span><strong>{{ date | date: 'MMM' }}</strong></span>
+          <span class="year">{{ date | date: 'yyyy' }}</span>
+        </span>
+    </div>
+
+    <div class="header__week">{{ date | date: 'EEEE' }}</div>
+  </div>
+
+  <div class="board-page__progress">
+    <app-progress [options]="listItems()"/>
+  </div>
+
+  <app-exan-input [(ngModel)]="searchValue" (buttonClick)="addItem()"/>
+
+  <div class="container" cdkDropListGroup>
+    <div
+      cdkDropList
+      [cdkDropListData]="listItems()[ListTypeEnum.todo]"
+      class="list"
+      (cdkDropListDropped)="drop($event)">
+      @for (item of listItems()[ListTypeEnum.todo]; track item) {
+        <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.todo" [title]="item" class="box"
+                       cdkDrag/>
+      }
+    </div>
+
+    <mat-accordion multi>
+      <mat-expansion-panel hideToggle (opened)="panelOpenStateDoLater.set(true)"
+                           (closed)="panelOpenStateDoLater.set(false)">
+        <mat-expansion-panel-header>
+          <mat-icon [ngStyle]="{'color':'rgb(250 250 250)'}" class="collapse-icon" aria-hidden="false"
+                    aria-label="Example home icon"
+                    [fontIcon]="panelOpenStateDoLater() ? 'keyboard_arrow_down' : 'keyboard_arrow_right'"/>
+          <span class="title">Do Later</span>
+        </mat-expansion-panel-header>
+        <div
+          cdkDropList
+          [cdkDropListData]="listItems()[ListTypeEnum.doLater]"
+          class="list"
+          (cdkDropListDropped)="drop($event)">
+          @for (item of listItems()[ListTypeEnum.doLater]; track item) {
+            <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.doLater" [title]="item"
+                           class="box" cdkDrag/>
+          }
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel hideToggle (opened)="panelOpenStateCompleted.set(true)"
+                           (closed)="panelOpenStateCompleted.set(false)">
+        <mat-expansion-panel-header>
+          <mat-icon [ngStyle]="{'color':'rgb(250 250 250)'}" class="collapse-icon" aria-hidden="false"
+                    aria-label="Example home icon"
+                    [fontIcon]="panelOpenStateCompleted() ? 'keyboard_arrow_down' : 'keyboard_arrow_right'"></mat-icon>
+          <span class="title">Completed</span>
+        </mat-expansion-panel-header>
+        <div
+          cdkDropList
+          [cdkDropListData]="listItems()[ListTypeEnum.completed]"
+          class="list"
+          (cdkDropListDropped)="drop($event)">
+          @for (item of listItems()[ListTypeEnum.completed]; track item) {
+            <app-list-item (actionClick)="actionClick($event)" [listType]="ListTypeEnum.completed" [title]="item"
+                           class="box" cdkDrag/>
+          }
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="board-page__reset">
+    <button (click)="reset()" mat-button>reset progress</button>
+  </div>
+
+</div>
