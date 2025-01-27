@@ -76,19 +76,25 @@ export class BoardPageComponent implements OnInit {
         event.currentIndex
       );
     }
+    this.listItems.set({...this.listItems()});
 
     this.storageService.saveItems(this.listItems());
+    this.filterIt();
   }
 
   addItem(): void {
     const items = this.listItems();
     items[ListTypeEnum.todo].push(this.searchValue);
     this.listItems.set({...items});
-    this.filterIt();
     this.storageService.saveItems(items);
+    this.filterIt();
   }
 
   filterIt(): void {
+    if(!this.filteredValue) {
+      return this.filterItems.set(this.listItems());
+    }
+
     this.filterItems.set({
       [ListTypeEnum.todo]: this.listItems()[ListTypeEnum.todo].filter(x => x.toLowerCase().includes(this.filteredValue.toLowerCase())),
       [ListTypeEnum.doLater]: this.listItems()[ListTypeEnum.doLater].filter(x => x.toLowerCase().includes(this.filteredValue.toLowerCase())),
