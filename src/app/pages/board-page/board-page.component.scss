@@ -85,6 +85,15 @@
     margin-bottom: 16px;
   }
 
+  &__filter {
+    display: flex;
+    margin: 16px 0;
+
+    input {
+      width: 100%;
+    }
+  }
+
   &__reset {
 
     text-align: center;
